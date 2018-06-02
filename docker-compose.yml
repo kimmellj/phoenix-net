@@ -1,0 +1,30 @@
+version: '2'
+# Create networks to be used to isolate containers
+networks:
+  # Server network to hold database and backend
+  servernetwork:
+    driver: bridge
+
+# Define services to be run.
+services:
+  database:
+    build: ./database
+    networks:
+      # Add the database service to the servernetwork.
+      - servernetwork
+  application:
+    build:
+      context: ./application
+      dockerfile: Dockerfile
+    volumes:
+      - ./application:/application/code
+    env_file:
+      # Get the configuration from the dotenv file.
+      - ./application/.env
+    ports:
+      - "80:3000"
+      - "443:443"
+    networks:
+      - servernetwork
+    depends_on:
+      - database
