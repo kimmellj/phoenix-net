@@ -6,10 +6,7 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import { errorHandler as queryErrorHandler } from 'querymen'
 import { errorHandler as bodyErrorHandler } from 'bodymen'
-import fs from 'fs'
 import { env } from '../../config'
-
-
 
 export default (apiRoot, routes) => {
   const app = express()

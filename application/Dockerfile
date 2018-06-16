@@ -1,5 +1,7 @@
 FROM node:9.4.0-alpine as builder
 
+ARG db="database"
+
 RUN apk add --no-cache make gcc g++ python
 
 # Create app directory
@@ -8,17 +10,22 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
+COPY package.json /usr/src/app
 
-RUN npm install --only=production
+COPY package-lock.json /usr/src/app
+
+RUN npm install
+RUN npm rebuild bcrypt --build-from-source
+
+RUN npm install pm2 -g
 
 # Bundle app source
-COPY . .
+COPY . /usr/src/app
 
 EXPOSE 3000
 EXPOSE 443
 
-CMD [ "npm", "run", "prod" ]
+CMD ["pm2-docker", "start", "ecosystem.config.js", "--env", "production"]
 
 # # Dockerfile to build `binary` image which will have everything packages like dependenecies and codes.
 # # This image can be configured and run with environment variables.

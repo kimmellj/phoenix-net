@@ -2,7 +2,7 @@ version: '2'
 # Create networks to be used to isolate containers
 networks:
   # Server network to hold database and backend
-  servernetwork:
+  server_network:
     driver: bridge
 
 # Define services to be run.
@@ -11,7 +11,7 @@ services:
     build: ./database
     networks:
       # Add the database service to the servernetwork.
-      - servernetwork
+      - server_network
   application:
     build:
       context: ./application
@@ -24,7 +24,9 @@ services:
     ports:
       - "80:3000"
       - "443:443"
+    links:
+      - database
     networks:
-      - servernetwork
+      - server_network
     depends_on:
       - database

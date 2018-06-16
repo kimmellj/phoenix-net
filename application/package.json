@@ -9,7 +9,6 @@
     "coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
     "dev": "nodemon -i \"*.test.js\" .",
-    "prod": "NODE_ENV=production pm2 restart ./src/index.js --env production",
     "lint": "eslint src",
     "docs": "apidoc -i src -o docs && apidoc-markdown -p docs -o DOCS.md",
     "postdocs": "opn docs/index.html"
@@ -18,7 +17,7 @@
       "name": "Phoenix-API",
       "script": "src/index.js",
       "env_production": {
-        "NODE_ENV": "production"
+	"NODE_ENV": "production"
       }
     }
   ],
@@ -32,8 +31,8 @@
       "path": "/Users/jamie/phoenix-api",
       "post-deploy": "cd application/; npm install; npm run prod",
       "env"  : {
-        "NODE_ENV": "production",
-        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin/"
+	"NODE_ENV": "production",
+	"PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin/"
       }
     }
   },
@@ -46,6 +45,8 @@
     "apidoc-markdown": "^0.2.0",
     "babel-eslint": "^8.0.1",
     "babel-jest": "^20.0.3",
+    "cross-env": "^5.0.5",
+    "dotenv-safe": "^4.0.3",
     "eslint": "^4.4.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-promise": "^3.0.0",
@@ -53,6 +54,7 @@
     "jest-cli": "^20.0.4",
     "mockgoose": "^6.0.8",
     "nock": "^9.0.2",
+    "nodemon": "^1.10.2",
     "opn-cli": "^3.1.0",
     "sinon": "^4.0.1",
     "supertest": "^3.0.0"
@@ -69,8 +71,6 @@
     "bodymen": "^1.0.3",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
-    "cross-env": "^5.0.5",
-    "dotenv-safe": "^4.0.3",
     "express": "^4.16.2",
     "express-force-ssl": "^0.3.2",
     "jsonwebtoken": "^8.1.0",
@@ -78,12 +78,10 @@
     "mongoose-create-unique": "^0.4.4",
     "mongoose-keywords": "^0.3.2",
     "morgan": "^1.7.0",
-    "nodemon": "^1.10.2",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^3.0.0",
-    "pm2": "^2.10.4",
     "querymen": "^2.1.3",
     "rand-token": "^0.4.0",
     "request": "^2.83.0",
