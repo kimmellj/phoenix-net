@@ -47,7 +47,7 @@ const config = {
   },
   development: {
     mongo: {
-      uri: 'mongodb://localhost/rest-gen-dev',
+      uri: process.env.MONGODB_URI || 'mongodb://localhost/rest-gen-dev',
       options: {
         debug: true
       }
