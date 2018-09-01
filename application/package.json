@@ -10,7 +10,7 @@
     "postcoverage": "opn coverage/lcov-report/index.html",
     "dev": "nodemon -i \"*.test.js\" .",
     "lint": "eslint src",
-    "docs": "apidoc -i src -o docs && apidoc-markdown -p docs -o DOCS.md",
+    "docs": "apidoc -i src -o docs && apidoc-markdown2 -p docs -o DOCS.md",
     "postdocs": "opn docs/index.html"
   },
   "apps": [
@@ -45,13 +45,15 @@
   },
   "devDependencies": {
     "apidoc": "^0.17.6",
-    "apidoc-markdown": "^0.2.0",
+    "apidoc-markdown2": "^0.3.7",
     "babel-eslint": "^8.0.1",
     "babel-jest": "^20.0.3",
     "cross-env": "^5.0.5",
     "dotenv-safe": "^4.0.3",
     "eslint": "^4.4.1",
     "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^3.0.0",
     "eslint-plugin-standard": "^3.0.1",
     "jest-cli": "^20.0.4",
