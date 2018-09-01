@@ -9,6 +9,8 @@ networks:
 services:
   database:
     build: ./database
+    logging:
+      driver: "none"
     networks:
       # Add the database service to the servernetwork.
       - server_network
@@ -39,8 +41,7 @@ services:
       links:
           - application
       ports:
-          - "80"
-          - "443"
+          - "4242:443"
       networks:
         - server_network
       depends_on:

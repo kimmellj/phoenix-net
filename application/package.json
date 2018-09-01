@@ -13,26 +13,29 @@
     "docs": "apidoc -i src -o docs && apidoc-markdown -p docs -o DOCS.md",
     "postdocs": "opn docs/index.html"
   },
-  "apps": [ {
+  "apps": [
+    {
       "name": "Phoenix-API",
       "script": "src/index.js",
       "env_production": {
-	"NODE_ENV": "production"
+        "NODE_ENV": "production"
       }
     }
   ],
   "deploy": {
     "production": {
       "user": "jamie",
-      "host": [ "d-vault.local" ],
+      "host": [
+        "d-vault.local"
+      ],
       "ref": "origin/develop",
       "ssh_options": "ForwardAgent=yes",
       "repo": "git@bitbucket.org:kimmellj/phoenix-net.git",
       "path": "/Users/jamie/phoenix-api",
       "post-deploy": "cd application/; npm install; npm run prod",
-      "env"  : {
-	"NODE_ENV": "production",
-	"PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin/"
+      "env": {
+        "NODE_ENV": "production",
+        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin/"
       }
     }
   },
@@ -54,6 +57,7 @@
     "jest-cli": "^20.0.4",
     "mockgoose": "^6.0.8",
     "nock": "^9.0.2",
+    "node-fetch": "^2.1.2",
     "nodemon": "^1.10.2",
     "opn-cli": "^3.1.0",
     "sinon": "^4.0.1",
