@@ -1,8 +1,8 @@
-FROM node:9.4.0-alpine as builder
+FROM node:9.4.0-alpine as applicationBuilder
 
 ARG db="database"
 
-RUN apk add --no-cache make gcc g++ python
+RUN apk add --no-cache make gcc g++ python curl
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -17,11 +17,12 @@ COPY package-lock.json /usr/src/app
 RUN npm install
 RUN npm rebuild bcrypt --build-from-source
 
-RUN npm install -g nodemon
+# RUN npm install forever -g
 
 # Bundle app source
 COPY . /usr/src/app
 
 EXPOSE 3000
 
-CMD ["nodemon", "./src/index.js"]
+#CMD ["forever", "start", "--append", "-e", "/usr/src/app/error.log", "-l", "/usr/src/app/app.log", "./src/index.js"]
+CMD ["node", "./src/index.js"]
