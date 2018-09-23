@@ -1,10 +1,8 @@
 import http from 'http'
-import https from 'https'
 import { env, mongo, port, ip, apiRoot } from './config'
 import mongoose from './services/mongoose'
 import express from './services/express'
 import api from './api'
-import fs from 'fs'
 
 const app = express(apiRoot, api)
 const server = http.createServer(app)
