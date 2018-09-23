@@ -16,9 +16,12 @@ export default (apiRoot, routes) => {
   })
 
   /* istanbul ignore next */
-  if (env === 'production' || env === 'development') {
+  if (env === 'production') {
     app.use(cors())
     app.use(compression())
+  }
+
+  if (env === 'development') {
     app.use(morgan('dev'))
   }
 
