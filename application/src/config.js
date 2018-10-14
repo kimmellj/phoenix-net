@@ -3,10 +3,10 @@ import path from 'path'
 
 /* istanbul ignore next */
 const requireProcessEnv = (name) => {
-  if (!process.env[name]) {
+  if (!process.env[ name ]) {
     throw new Error('You must set the ' + name + ' environment variable')
   }
-  return process.env[name]
+  return process.env[ name ]
 }
 
 /* istanbul ignore next */
@@ -59,11 +59,11 @@ const config = {
     mongo: {
       uri: process.env.MONGODB_URI || 'mongodb://localhost/phoenix-api',
       options: {
-          debug: false
+        debug: false
       }
     }
   }
 }
 
-module.exports = Object.assign(config.all, config[config.all.env])
+module.exports = Object.assign(config.all, config[ config.all.env ])
 export default module.exports
