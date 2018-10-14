@@ -1,0 +1,13 @@
+{
+  "hostName": "titan.lan",
+  "dateTime": null,
+  "ipAddress": null,
+  "personalEvents": [],
+  "workEvents": "test",
+  "cryptoCoins": [],
+  "weatherData": {},
+  "errorMessage": false,
+  "token": null,
+  "loggedInUser": null,
+  "messages": []
+}
