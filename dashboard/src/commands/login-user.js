@@ -1,16 +1,16 @@
 import AppModel from "../models/index.js"
-import LoadAllMessages from "../commands/load-all-messages.js"
+import GetUser from "./get-user.js"
 
 export default class LoginUser {
     static execute( email, password ) {
-        AppModel.setValue( "errorMessage", false )
+        AppModel.setValue( "signInErrorMessage", null )
 
         fetch( `${AppModel.getValue( "url" )}/auth`, {
             "body": JSON.stringify( {
                 "access_token": AppModel.getValue( "masterKey" )
             } ), // must match 'Content-Type' header
             "cache": "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            "credentials": "same-origin", // include, same-origin, *omit
+            // "credentials": "same-origin", // include, same-origin, *omit
             "headers": {
                 "user-agent": "Mozilla/4.0 MDN Example",
                 "content-type": "application/json",
@@ -21,20 +21,28 @@ export default class LoginUser {
             "redirect": "follow", // manual, *follow, error
             "referrer": "no-referrer" // *client, no-referrer
         } )
-            .then( ( response ) => response.json() )
             .then( ( response ) => {
-                if ( response.valid && response.valid === false ) {
-                    console.log( "not valid" )
-                    AppModel.setValue( "errorMessage", response.message )
+                if ( !response.ok ) {
+                    throw new Error( "Invalid Login!" )
+                }
+
+                return response.json()
+            } )
+            .then( ( response ) => {
+                if ( response.hasOwnProperty( "valid" ) && response.valid === false ) {
+                    AppModel.setValue( "signInErrorMessage", "Login failed!" )
                 } else {
                     AppModel.saveToLocalStorage( "apiToken", response.token )
+                    // AppModel.saveToLocalStorage( "loggedInUser", JSON.stringify( response.user ) )
                     AppModel.setData( {
-                        "apiToken": response.token,
-                        "loggedInUser": response.user
+                        "apiToken": response.token
                     } )
 
-                    LoadAllMessages.execute()
+                    GetUser.execute()
                 }
+            } )
+            .catch( ( e ) => {
+                AppModel.setValue( "signInErrorMessage", e.toString() )
             } )
     }
 }

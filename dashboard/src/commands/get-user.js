@@ -20,11 +20,9 @@ export default class GetUser {
             .then( ( response ) => response.json() )
             .then( ( response ) => {
                 if ( response.valid && response.valid === false ) {
-                    console.log( "not valid" )
                     AppModel.setValue( "errorMessage", response.message )
                 } else {
                     AppModel.setValue( "loggedInUser", response )
-                    console.log( "Load all messages from get user" )
                     LoadAllMessages.execute()
                 }
             } )

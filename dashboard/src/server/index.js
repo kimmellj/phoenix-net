@@ -27,7 +27,6 @@ updateBackground.refresh( null, ( error ) => {
 } )
 
 setInterval( () => {
-    console.log( "Updating Events ..." )
     UpdateEvents.execute()
 }, 1000 * 60 * 5 )
 

@@ -24,6 +24,7 @@ export default (apiRoot, routes) => {
   if (env === 'development') {
     app.use(morgan('dev'))
   }
+  app.use('/', express.static('../dashboard/dist/'))
 
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())

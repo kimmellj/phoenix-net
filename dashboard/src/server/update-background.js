@@ -100,7 +100,6 @@ class UpdateBackground {
             log.debug( `Random Number Generated: ${number}` )
             let image = this.files[ number ]
 
-            console.log( image )
             fs.writeFileSync( `${this.folder}current-image.json`, JSON.stringify( {
                 "image": image.id
             } ) )

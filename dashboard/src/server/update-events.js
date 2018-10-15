@@ -28,8 +28,6 @@ class UpdateEvent {
             ]
 
 
-        console.log( homeEventsCommand.join( " " ) )
-
         shell.exec( `${workEventsCommand.join( " " )}`, ( code, sdout, stderr ) => {
             if ( code !== 0 ) {
                 console.error( stderr )

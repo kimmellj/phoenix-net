@@ -7,7 +7,7 @@ export default class CreateUser {
 
         if ( !masterKey || !url ) {
             AppModel.setData( {
-                "errorMessage": "Master Key or url was not found"
+                "createUserErrorMessage": "Master Key or url was not found"
             } )
         }
 
@@ -15,7 +15,7 @@ export default class CreateUser {
         user.role = "admin"
 
         AppModel.setData( {
-            "errorMessage": false
+            "createUserErrorMessage": null
         } )
 
         fetch( `${url}/users`, {
@@ -33,11 +33,8 @@ export default class CreateUser {
         } )
             .then( ( response ) => response.json() )
             .then( ( response ) => {
-                if ( response.valid && response.valid === false ) {
-                    console.log( "not valid" )
-                    AppModel.setData( {
-                        "errorMessage": response.message
-                    } )
+                if ( response.hasOwnProperty( "valid" ) && response.valid === false ) {
+                    AppModel.setValue( "createUserErrorMessage", response.message )
                 } else {
                     AppModel.saveToLocalStorage( "apiToken", response.token )
                     AppModel.setData( {
@@ -45,6 +42,9 @@ export default class CreateUser {
                         "loggedInUser": response.user
                     } )
                 }
+            } )
+            .catch( ( e ) => {
+                AppModel.setValue( "createUserErrorMessage", e.toString() )
             } )
     }
 }
