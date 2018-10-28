@@ -3,6 +3,12 @@
 This repository was created from: [generator-rest](https://github.com/diegohaz/generator-rest)
 See the API's [documentation](DOCS.md).
 
+
+## Jamie Notes
+### Production
+* source .env
+* sudo npm install -g pm2
+
 ## Commands
 
 After you generate your project, these commands are available in `package.json`.

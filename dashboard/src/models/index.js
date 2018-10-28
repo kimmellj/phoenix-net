@@ -1,6 +1,12 @@
 class Model {
 
     constructor() {
+        let url = localStorage.getItem( "url" )
+
+        if ( url && url.substring( url.length - 1 ) === "/" ) {
+            url = url.substring( 0, url.length - 1 )
+        }
+
         this.data = {
             "hostName": "titan.lan",
             "dateTime": null,
@@ -8,13 +14,16 @@ class Model {
             "personalEvents": [],
             "workEvents": "test",
             "cryptoCoins": [],
-            "weatherData": {},
-            "errorMessage": false,
+            "weatherData": null,
+            "errorMessage": null,
+            "signInErrorMessage": null,
+            "createUserErrorMessage": null,
             "loggedInUser": null,
             "messages": [],
+            "users": [],
             "masterKey": localStorage.getItem( "masterKey" ),
             "apiToken": localStorage.getItem( "apiToken" ),
-            "url": localStorage.getItem( "url" )
+            "url": url
         }
 
         this.localStorageKeys = []

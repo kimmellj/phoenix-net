@@ -26,8 +26,6 @@ export default class DeleteMessage {
                 if ( response.ok ) {
                     LoadAllMessages.execute( )
                 } else {
-
-                    console.log( "not valid" )
                     AppModel.setData( {
                         "errorMessage": "There was a problem deleting this message!"
                     } )

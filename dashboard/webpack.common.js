@@ -21,10 +21,6 @@ module.exports = {
                 "loader": "css-loader" // translates CSS into CommonJS
             } ]
         },
-        {
-            "test": /\.svg$/,
-            "loader": "babel-loader!svg-react-loader"
-        },
 
         {
             "test": /\.(ttf|eot|woff|woff2|svg)$/,
@@ -58,6 +54,9 @@ module.exports = {
             "inject": false,
             "template": htmlWebpackTemplate,
             "appMountId": "app",
+            "meta": {
+                "viewport": "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+            },
             "appMountHtmlSnippet": '<div class="app-spinner"><i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true"></i></div>',
             "inlineManifestWebpackName": "webpackManifest",
             "title": "Dashboard"

@@ -29,7 +29,6 @@ export default class SaveNewMessage {
             .then( ( response ) => response.json() )
             .then( ( response ) => {
                 if ( response.valid && response.valid === false ) {
-                    console.log( "not valid" )
                     AppModel.setData( {
                         "errorMessage": response.message
                     } )
