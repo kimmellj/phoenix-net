@@ -6,9 +6,11 @@ import Grid from "@material-ui/core/Grid"
 import Messages from "./Messages.jsx"
 import Weather from "./Weather.jsx"
 import Users from "./Users.jsx"
+import Servers from "./Servers.jsx"
 
 import GetUsers from "../commands/get-users.js"
 import GetUser from "../commands/get-user.js"
+import LoadAllServers from "../commands/load-all-servers.js"
 import SaveNewMessage from "../commands/save-new-message.js"
 import DeleteMessage from "../commands/delete-message.js"
 import LoadAllMessages from "../commands/load-all-messages.js"
@@ -16,19 +18,19 @@ import GetWeather from "../commands/get-weather.js"
 
 import AppBar from "./AppBar.jsx"
 
-const styles = ( ) => ( {
+const styles = () => ({
     "dashboard": {
         "width": "100%"
     },
     "mainGrid": {
         "flexGrow": 1
     }
-} )
+})
 
 class Dashboard extends React.Component {
 
-    constructor( props ) {
-        super( props )
+    constructor(props) {
+        super(props)
 
         const { classes } = props
 
@@ -39,21 +41,25 @@ class Dashboard extends React.Component {
 
         LoadAllMessages.execute()
         GetWeather.execute()
+        LoadAllServers.execute()
 
         this.intervals = {
-            "messages": setInterval( () => {
+            "servers": setInterval(() => {
+                LoadAllServers.execute()
+            }, 10000),
+            "messages": setInterval(() => {
                 LoadAllMessages.execute()
-            }, 10000 ),
-            "weather": setInterval( () => {
+            }, 10000),
+            "weather": setInterval(() => {
                 GetWeather.execute()
-            }, 10000 ),
+            }, 10000),
         }
     }
 
     componentWillUnmount() {
-        clearInterval( this.intervals.messages )
-        clearInterval( this.intervals.weather )
-        clearInterval( this.intervals.users )
+        clearInterval(this.intervals.messages)
+        clearInterval(this.intervals.weather)
+        clearInterval(this.intervals.users)
     }
 
     render() {
@@ -66,14 +72,17 @@ class Dashboard extends React.Component {
                     </Grid>
                     <Grid item xs={12} lg={8}>
                         <Messages
-                            deleteMessage={( messageID ) => {
-                                DeleteMessage.execute( messageID )
+                            deleteMessage={(messageID) => {
+                                DeleteMessage.execute(messageID)
                             }}
-                            saveNewMessage={( message ) => {
-                                SaveNewMessage.execute( message )
+                            saveNewMessage={(message) => {
+                                SaveNewMessage.execute(message)
                             }}
                             messages={this.props.messages}
                         />
+                    </Grid>
+                    <Grid item xs={12} lg={4}>
+                        {this.props.servers ? <Servers servers={this.props.servers} /> : 'No Servers available ... that cant be right?'}
                     </Grid>
                 </Grid>
 
@@ -85,10 +94,11 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
     "classes": PropTypes.object.isRequired,
     "messages": PropTypes.array,
+    "servers": PropTypes.array,
     "user": PropTypes.object.isRequired,
     "users": PropTypes.array,
     "weatherData": PropTypes.object,
     "logout": PropTypes.func.isRequired
 }
 
-export default withStyles( styles )( Dashboard )
+export default withStyles(styles)(Dashboard)

@@ -130,6 +130,7 @@ class App extends React.Component {
             user={this.state.loggedInUser}
             users={this.state.users}
             messages={this.state.messages}
+            servers={this.state.servers}
             logout={() => {
                 LogoutUser.execute()
             }}

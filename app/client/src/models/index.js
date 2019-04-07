@@ -16,6 +16,7 @@ class Model {
             "createUserErrorMessage": null,
             "loggedInUser": {},
             "messages": [],
+            "servers": [],
             "users": [],
             "masterKey": localStorage.getItem( "masterKey" ),
             "apiToken": localStorage.getItem( "apiToken" ),

@@ -7,6 +7,10 @@ const database = new Sequelize({
   operatorsAliases: false
 })
 
+const Servers = database.define('servers', {
+  address: Sequelize.STRING
+})
+
 const Message = database.define('messages', {
   type: Sequelize.STRING,
   message: Sequelize.TEXT
@@ -18,6 +22,11 @@ const initializeDatabase = async (app) => {
   epilogue.resource({
     model: Message,
     endpoints: ['/messages', '/messages/:id']
+  })
+
+  epilogue.resource({
+    model: Servers,
+    endpoints: ['/servers', '/servers/:address']
   })
 
   await database.sync()
