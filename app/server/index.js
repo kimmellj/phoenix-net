@@ -1,14 +1,15 @@
-const env = require('env2')('.env')
+require('env2')('.env')
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const http = require('http')
 const https = require('https')
 const path = require('path')
 const fs = require('fs')
-const basicAuth = require('basic-auth-connect');
+const basicAuth = require('basic-auth-connect')
 
 const initializeDatabase = require('./database')
-const register = require('./register')
+const registerServer = require('./registerServer')
 
 const startServer = async () => {
   const app = express()
@@ -26,14 +27,14 @@ const startServer = async () => {
       ca: fs.readFileSync(process.env.SSL_CA)
     }
 
-    const serverSSL = https.createServer(sslOptions, app);
-    serverSSL.listen(443);
+    const serverSSL = https.createServer(sslOptions, app)
+    serverSSL.listen(443)
   } else {
-    const server = http.createServer(app);
-    server.listen(3000);
+    const server = http.createServer(app)
+    server.listen(3000)
   }
 
-  register()
+  registerServer()
 }
 
 startServer()

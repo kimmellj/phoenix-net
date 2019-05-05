@@ -48,8 +48,10 @@ class Dashboard extends React.Component {
                 LoadAllServers.execute()
             }, 10000),
             "messages": setInterval(() => {
-                LoadAllMessages.execute()
-            }, 10000),
+                if (this.props.requestingMessages === false) {
+                    LoadAllMessages.execute()
+                }
+            }, 500),
             "weather": setInterval(() => {
                 GetWeather.execute()
             }, 10000),
@@ -73,6 +75,7 @@ class Dashboard extends React.Component {
                     <Grid item xs={12} lg={8}>
                         <Messages
                             deleteMessage={(messageID) => {
+                                console.log(`Deleting message: ${messageID}`)
                                 DeleteMessage.execute(messageID)
                             }}
                             saveNewMessage={(message) => {
@@ -98,7 +101,8 @@ Dashboard.propTypes = {
     "user": PropTypes.object.isRequired,
     "users": PropTypes.array,
     "weatherData": PropTypes.object,
-    "logout": PropTypes.func.isRequired
+    "logout": PropTypes.func.isRequired,
+    "requestingMessages": PropTypes.boolean
 }
 
 export default withStyles(styles)(Dashboard)

@@ -1,3 +1,7 @@
+/**
+ * @todo it doesn't refresh the data at the end of the request
+ * for now, we're just bumping up the frequency of update
+ */
 import AppModel from "../models/index.js"
 import LoadAllMessages from "../commands/load-all-messages.js"
 
@@ -23,7 +27,7 @@ export default class DeleteMessage {
         } )
             .then( ( response ) => {
                 if ( response.ok ) {
-                    LoadAllMessages.execute( )
+                    // LoadAllMessages.execute( )
                 } else {
                     AppModel.setData( {
                         "errorMessage": "There was a problem deleting this message!"

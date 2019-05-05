@@ -134,6 +134,7 @@ class App extends React.Component {
             logout={() => {
                 LogoutUser.execute()
             }}
+            requestingMessages={this.state.requestingMessages}
             weatherData={this.state.weatherData} />
     }
 

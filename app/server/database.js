@@ -1,10 +1,12 @@
 const Sequelize = require('sequelize')
 const epilogue = require('epilogue')
+const blockChain = require('./block-chain')
 
 const database = new Sequelize({
   dialect: 'sqlite',
   storage: './database.sqlite',
-  operatorsAliases: false
+  operatorsAliases: false,
+  logging: false
 })
 
 const Servers = database.define('servers', {
@@ -19,9 +21,28 @@ const Message = database.define('messages', {
 const initializeDatabase = async (app) => {
   epilogue.initialize({ app, sequelize: database })
 
-  epilogue.resource({
+  const messageResource = epilogue.resource({
     model: Message,
     endpoints: ['/messages', '/messages/:id']
+  })
+
+  messageResource.create.write.after(function (req, res, context) {
+    const blockData = {
+      'resource': 'messages',
+      'action': 'create',
+      'dataValues': context.instance.dataValues,
+      'prevValues': context.instance._previousDataValues
+    }
+    console.log(blockChain.addBlock(blockData))
+  })
+
+  messageResource.delete.write(function (req, res, context) {
+    const blockData = {
+      'resource': 'messages',
+      'action': 'delete',
+      'dataValues': context.criteria
+    }
+    console.log(blockChain.addBlock(blockData))
   })
 
   epilogue.resource({

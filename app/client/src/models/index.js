@@ -20,7 +20,8 @@ class Model {
             "users": [],
             "masterKey": localStorage.getItem( "masterKey" ),
             "apiToken": localStorage.getItem( "apiToken" ),
-            "url": url
+            "url": url,
+            "requestingMessages": false
         }
 
         this.localStorageKeys = []

@@ -36,7 +36,7 @@ export default class SaveNewMessage {
                         "errorMessage": response.message
                     } )
                 } else {
-                    LoadAllMessages.execute()
+                    // LoadAllMessages.execute()
                 }
             } )
     }
