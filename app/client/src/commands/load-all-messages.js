@@ -8,7 +8,7 @@ export default class LoadAllMessages {
         AppModel.setValue( "errorMessage", false )
         AppModel.setValue( "requestingMessages", true )
 
-        fetch( `/messages?access_token=${apiToken}&user=${user.ID}`, {
+        fetch( `/messages?sort=-updatedAt&access_token=${apiToken}&user=${user.ID}`, {
             "cache": "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
             "credentials": "same-origin", // include, same-origin, *omit
             "headers": {

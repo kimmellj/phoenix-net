@@ -33,7 +33,7 @@ test('Should store / load the chain successfully', () => {
 
   const blockChain = new BlockChain()
 
-  for (let i = 0; i < 30000; i++) {
+  for (let i = 0; i < 3; i++) {
     blockChain.saveData({
       'timestamp': Date.now(),
       'action': 'log',
@@ -47,11 +47,9 @@ test('Should store / load the chain successfully', () => {
 
   const newBlockChain = new BlockChain(localFile)
 
-  console.log(newBlockChain)
-
   const chain = newBlockChain.getChain(true)
 
-  expect(chain).toHaveLength(30001)
+  expect(chain).toHaveLength(2)
 
   chain.forEach((block) => {
     if (block.index === 0) {

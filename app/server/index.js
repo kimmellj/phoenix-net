@@ -8,15 +8,28 @@ const path = require('path')
 const fs = require('fs')
 const basicAuth = require('basic-auth-connect')
 
+const BlockChain = require('./block-chain')
 const initializeDatabase = require('./database')
 const registerServer = require('./registerServer')
+
+const blockChainFile = path.join(__dirname, 'blockchain.json')
+
+let blockChain = null
+
+try {
+  fs.accessSync(blockChainFile, fs.constants.R_OK | fs.constants.W_OK);
+  blockChain = new BlockChain(blockChainFile)
+} catch (err) {
+  blockChain = new BlockChain()
+  blockChain.store(blockChainFile)
+}
 
 const startServer = async () => {
   const app = express()
   console.log([process.env.AUTH_USER, process.env.AUTH_PASS])
   app.use(basicAuth(process.env.AUTH_USER, process.env.AUTH_PASS))
   app.use(bodyParser.json())
-  await initializeDatabase(app)
+  await initializeDatabase(app, blockChain)
 
   app.use('/', express.static(path.join(__dirname, '..', 'client', 'dist')))
 

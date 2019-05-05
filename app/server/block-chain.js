@@ -13,10 +13,12 @@ const sha256 = require('sha256')
  * - md5 hash the password
  * - new servers have to match the password to decrypt the chain
  * encrypt the chain before sending?
+ *
+ * @todo pass in encryption string on construct?
  */
 
 class Block {
-  constructor (index, timestamp, data, prevHash) {
+  constructor(index, timestamp, data, prevHash) {
     this.index = index
     this.timestamp = timestamp
     this.data = data
@@ -28,7 +30,7 @@ class Block {
 }
 
 class BlockChain {
-  constructor (fileName) {
+  constructor(fileName) {
     this.chain = []
     this.queue = []
 
@@ -38,29 +40,36 @@ class BlockChain {
       const fileContents = `${fs.readFileSync(fileName)}`
 
       this.chain = JSON.parse(fileContents)
+      let foo = 'bar'
     } else {
       this.createGenesisBlock()
       this.lastBlock = this.chain[0]
     }
   }
 
-  createGenesisBlock () {
+  createGenesisBlock() {
     this.chain.push(new Block(0, Date.now(), 'Genesis BlockChain', '0'))
   }
 
-  saveData (data) {
+  saveData(data) {
     this.queue.push({
       timestamp: Date.now(),
       data: data
     })
 
     if (this.queue.length >= 25) {
-      this.nextBlock(JSON.stringify(Crypto.encrypt(JSON.stringify(this.queue))))
-      this.queue = []
+      this.clearQueue()
     }
+
+    return this.queue.length
   }
 
-  nextBlock (data) {
+  clearQueue() {
+    this.nextBlock(JSON.stringify(Crypto.encrypt(JSON.stringify(this.queue))))
+    this.queue = []
+  }
+
+  nextBlock(data) {
     const block = new Block(
       this.lastBlock.index + 1,
       Date.now(),
@@ -74,7 +83,7 @@ class BlockChain {
     return block
   }
 
-  getChain (decrypt = false) {
+  getChain(decrypt = false) {
     let returnChain
 
     if (decrypt) {
@@ -96,7 +105,7 @@ class BlockChain {
     return returnChain
   }
 
-  validate () {
+  validate() {
     const clone = this.chain.slice(0)
     const revChain = clone.reverse()
 
@@ -126,12 +135,20 @@ class BlockChain {
     return !intruder
   }
 
-  store (fileName) {
+  /**
+   * @todo need to wait for queue to be empty
+   * @param fileName
+   * @returns {boolean}
+   */
+  store(fileName) {
     try {
       const dirName = path.dirname(fileName)
 
+      this.clearQueue()
+      const stringChain = JSON.stringify(this.getChain(), null, 2)
+
       fs.ensureDirSync(dirName)
-      fs.writeFile(fileName, JSON.stringify(this.getChain(), null, 2))
+      fs.writeFileSync(fileName, stringChain)
     } catch (e) {
       console.error(e)
       return false
